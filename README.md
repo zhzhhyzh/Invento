@@ -67,7 +67,7 @@ Ensure the correct Java Development Kit is linked to the project:
 2.  **Right-click** the file in the Project window.
 3.  Select **"Run 'InventoApplication.main()'"** from the context menu.
 
-The application will start, and you will see the Spring Boot logging output in the Run tool window, indicating that the application is live, typically on `http://localhost:8080`.
+The application will start, and you will see the Spring Boot logging output in the Run tool window, indicating that the application is live, typically on `http://localhost:5050`.
 
 ---
 
