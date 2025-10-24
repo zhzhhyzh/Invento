@@ -38,7 +38,7 @@ This guide provides the steps required to set up and run the Invento project loc
 
 1.  **Clone the Repository** (If applicable):
     ```bash
-    git clone [YOUR_REPO_URL]
+    git clone https://github.com/zhzhhyzh/Invento.git
     ```
 2.  **Open IntelliJ IDEA.**
 3.  On the welcome screen, click **Open** or go to **File $\rightarrow$ Open...**
