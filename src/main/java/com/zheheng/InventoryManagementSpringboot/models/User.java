@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -39,7 +40,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    @OneToOne(mappedBy = "user")
+    @OneToMany(mappedBy = "user")
     private List<Transaction> transactions;
 
     @Column(name = "created_at")

@@ -1,13 +1,15 @@
 package com.zheheng.InventoryManagementSpringboot.models;
 
-import com.zheheng.InventoryManagementSpringboot.enums.UserRole;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -25,35 +27,37 @@ public class Product {
     private String name;
 
     @Column(unique = true)
-    @NotBlank(message = "Email is required")
-    private String email;
+    @NotBlank(message = "sku is required")
+    private String sku;
 
 
-    @NotBlank(message = "Password is required")
-    private String password;
+    @Positive(message = "price must be greater than positive value")
+    private BigDecimal price;
 
-    @NotBlank(message = "Phone Number is required")
-    @Column(name = "phone_number")
-    private String phoneNumber;
+    @Min(value = 0, message = "stock quantity cannot be negative")
+    private Integer stockQuantity;
+    
+    private String description;
+    private LocalDateTime expiryDate;
+    private String imageUrl;
 
-    @Enumerated(EnumType.STRING)
-    private UserRole role;
-
-    @OneToOne(mappedBy = "user")
-    private List<Transaction> transactions;
-
-    @Column(name = "created_at")
     private final LocalDateTime createdAt = LocalDateTime.now();
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     @Override
     public String toString() {
-        return "User{" +
+        return "Product{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", role=" + role +
+                ", sku='" + sku + '\'' +
+                ", price=" + price +
+                ", stockQuantity=" + stockQuantity +
+                ", description='" + description + '\'' +
+                ", expiryDate=" + expiryDate +
+                ", imageUrl='" + imageUrl + '\'' +
                 ", createdAt=" + createdAt +
                 '}';
     }

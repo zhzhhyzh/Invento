@@ -1,14 +1,11 @@
 package com.zheheng.InventoryManagementSpringboot.models;
 
-import com.zheheng.InventoryManagementSpringboot.enums.UserRole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @Entity
 @AllArgsConstructor
@@ -25,7 +22,7 @@ public class Category {
     private String name;
 
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Product> products;
 
     @Override
@@ -33,7 +30,6 @@ public class Category {
         return "Category{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", products=" + products +
                 '}';
     }
 }
