@@ -26,7 +26,12 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public Response createSupplier(SupplierDTO supplierDTO) {
-
+        if (supplierService.existsByName(supplierDTO.getName())) {
+            return Response.builder()
+                    .status(400)
+                    .message("Supplier with the name '" + supplierDTO.getName() + "' already exists")
+                    .build();
+        }
         Supplier supplierToSave = modelMapper.map(supplierDTO, Supplier.class);
         supplierService.save(supplierToSave);
 
