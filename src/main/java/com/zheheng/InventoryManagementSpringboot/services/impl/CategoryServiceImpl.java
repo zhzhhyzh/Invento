@@ -19,11 +19,17 @@ import java.util.List;
 @Slf4j
 public class CategoryServiceImpl implements CategoryService {
 
-    private CategoryRepository categoryRepository;
-    private ModelMapper modelMapper;
+    private final CategoryRepository categoryRepository;
+    private final ModelMapper modelMapper;
 
     @Override
     public Response createCategory(CategoryDTO categoryDTO) {
+        if (categoryRepository.existsByName(categoryDTO.getName())) {
+            return Response.builder()
+                    .status(400)
+                    .message("Category with the name '" + categoryDTO.getName() + "' already exists")
+                    .build();
+        }
         Category categoryToSave = modelMapper.map(categoryDTO, Category.class);
         categoryRepository.save(categoryToSave);
 
