@@ -2,6 +2,7 @@ package com.zheheng.InventoryManagementSpringboot.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,7 +23,7 @@ public class JwtUtils {
     private static final long EXPIRATION_TIME_IN_MILLISEC = 864_000_000; //10 days
     private SecretKey key;
 
-    @Value("${secreteJwtString")
+    @Value("${secreteJwtString}")
     private String secreteJwtString;
 
     @PostConstruct
@@ -47,8 +48,28 @@ public class JwtUtils {
     }
 
     private <T> T extractClaims(String token, Function<Claims, T> claimsTFunction) {
-        return claimsTFunction.apply(Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload());
+        if (token == null || token.trim().isEmpty()) {
+            throw new IllegalArgumentException("JWT token is null or empty");
+        }
+
+        // Defensive: handle case where "Bearer " prefix wasn't stripped
+        if (token.startsWith("Bearer ")) {
+            token = token.substring(7);
+        }
+
+        if (!token.contains(".")) {
+            throw new MalformedJwtException("Invalid JWT format: missing '.' separators");
+        }
+
+        return claimsTFunction.apply(
+                Jwts.parser()
+                        .verifyWith(key)
+                        .build()
+                        .parseSignedClaims(token)
+                        .getPayload()
+        );
     }
+
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = getUsernameFromToken(token);

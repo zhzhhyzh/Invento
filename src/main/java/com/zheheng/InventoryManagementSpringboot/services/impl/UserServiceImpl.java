@@ -34,19 +34,32 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Response registerUser(RegisterRequest registerRequest) {
-        UserRole role = UserRole.MANAGER;
-        if (registerRequest.getRole() != null) {
-            role = registerRequest.getRole();
+        // Check if email already exists
+        if (userRepository.existsByEmail(registerRequest.getEmail())) {
+            return Response.builder()
+                    .status(400)
+                    .message("Email already exists")
+                    .build();
         }
+
+        UserRole role = registerRequest.getRole() != null ? registerRequest.getRole() : UserRole.MANAGER;
 
         User userToSave = User.builder()
                 .name(registerRequest.getName())
                 .email(registerRequest.getEmail())
+                .phoneNumber(registerRequest.getPhoneNumber())
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
                 .role(role)
                 .build();
 
-        userRepository.save(userToSave);
+        try {
+            userRepository.save(userToSave);
+        } catch (Exception e) {
+            return Response.builder()
+                    .status(500)
+                    .message("Failed to register user: " + e.getMessage())
+                    .build();
+        }
 
         return Response.builder()
                 .status(200)

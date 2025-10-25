@@ -40,7 +40,7 @@ public class UserController {
         return ResponseEntity.ok(userService.deleteUser(id));
     }
 
-    @GetMapping("/transactions/{id}")
+    @GetMapping("/transactions/{userId}")
     public ResponseEntity<Response> getUserAndTransactions(@PathVariable long userId) {
         return ResponseEntity.ok(userService.getUserTransactions(userId));
     }
