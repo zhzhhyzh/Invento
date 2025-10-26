@@ -37,7 +37,12 @@ public class ProductServiceImpl implements ProductService {
     public Response saveProduct(ProductDTO productDTO, MultipartFile productImage) {
         Category category = categoryRepository.findById(productDTO.getCategoryId())
                 .orElseThrow(() -> new NotFoundException("Category Not Found"));
-
+        if (productRepository.existsBySku(productDTO.getSku())) {
+            return Response.builder()
+                    .status(400)
+                    .message("Product with the SKU '" + productDTO.getSku() + "' already exists")
+                    .build();
+        }
         // map out dto to product entity
         Product productToSave = Product.builder()
                 .name(productDTO.getName())
@@ -155,7 +160,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Response searchProduct(String input) {
         List<Product> products = productRepository.findByNameContainingOrDescriptionContaining(input, input);
-        if(products.isEmpty()) {
+        if (products.isEmpty()) {
             throw new NotFoundException("Product Not Found");
         }
 

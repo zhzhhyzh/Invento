@@ -70,7 +70,7 @@ public class ProductController {
         productDTO.setProductId(productId);
         productDTO.setDescription(description);
 
-        return ResponseEntity.ok(productService.saveProduct(productDTO, imageFile));
+        return ResponseEntity.ok(productService.updateProduct(productDTO, imageFile));
     }
 
     @GetMapping("/all")
@@ -83,7 +83,7 @@ public class ProductController {
         return ResponseEntity.ok(productService.getProductById(id));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/search")
     public ResponseEntity<Response> searchProduct(@PathVariable String input) {
         return ResponseEntity.ok(productService.searchProduct(input));
     }
