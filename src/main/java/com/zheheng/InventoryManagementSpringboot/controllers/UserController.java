@@ -4,6 +4,7 @@ import com.zheheng.InventoryManagementSpringboot.dtos.LoginRequest;
 import com.zheheng.InventoryManagementSpringboot.dtos.RegisterRequest;
 import com.zheheng.InventoryManagementSpringboot.dtos.Response;
 import com.zheheng.InventoryManagementSpringboot.dtos.UserDTO;
+import com.zheheng.InventoryManagementSpringboot.models.User;
 import com.zheheng.InventoryManagementSpringboot.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -43,5 +44,10 @@ public class UserController {
     @GetMapping("/transactions/{userId}")
     public ResponseEntity<Response> getUserAndTransactions(@PathVariable long userId) {
         return ResponseEntity.ok(userService.getUserTransactions(userId));
+    }
+
+    @GetMapping("/current")
+    public ResponseEntity<User> getCurrentLoggedInUser() {
+        return ResponseEntity.ok(userService.getCurrentLoggedInUser());
     }
 }
