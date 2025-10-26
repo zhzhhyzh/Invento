@@ -21,9 +21,9 @@ public class TransactionRequest {
     private Integer quantity;
 
     @Positive(message = "supplier id is required")
-    private Long supplierid;
+    private Long supplierId;
 
-    private String decription;
+    private String description;
     private String note;
 
 

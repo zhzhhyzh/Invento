@@ -46,7 +46,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public Response purchase(TransactionRequest transactionRequest) {
         Long productId = transactionRequest.getProductId();
-        Long supplierId = transactionRequest.getSupplierid();
+        Long supplierId = transactionRequest.getSupplierId();
         Integer quantity = transactionRequest.getQuantity();
 
         if (supplierId == null) throw new IllegalArgumentException("supplierId is Required");
@@ -69,7 +69,7 @@ public class TransactionServiceImpl implements TransactionService {
                 .supplier(supplier)
                 .totalProducts(quantity)
                 .totalPrice(product.getPrice().multiply(BigDecimal.valueOf(quantity)))
-                .description(transactionRequest.getDecription())
+                .description(transactionRequest.getDescription())
                 .note(transactionRequest.getNote())
                 .build();
 
@@ -103,7 +103,7 @@ public class TransactionServiceImpl implements TransactionService {
                 .totalProducts(quantity)
                 .totalPrice(product.getPrice().multiply(BigDecimal.valueOf(quantity)))
                 .note(transactionRequest.getNote())
-                .description(transactionRequest.getDecription())
+                .description(transactionRequest.getDescription())
                 .build();
 
         transactionRepository.save(newTransaction);
@@ -118,7 +118,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public Response returnToSupplier(TransactionRequest transactionRequest) {
         Long productId = transactionRequest.getProductId();
-        Long supplierId = transactionRequest.getSupplierid();
+        Long supplierId = transactionRequest.getSupplierId();
         Integer quantity = transactionRequest.getQuantity();
 
         if (supplierId == null) throw new IllegalArgumentException("supplierId is Required");
@@ -140,7 +140,7 @@ public class TransactionServiceImpl implements TransactionService {
                 .user(user)
                 .totalProducts(quantity)
                 .totalPrice(BigDecimal.ZERO)
-                .description(transactionRequest.getDecription())
+                .description(transactionRequest.getDescription())
                 .note(transactionRequest.getNote())
                 .build();
 
@@ -160,7 +160,7 @@ public class TransactionServiceImpl implements TransactionService {
         Specification<Transaction> spec = TransactionFilter.byFilter(filter);
         Page<Transaction> transactionPage = transactionRepository.findAll(spec, pageable);
 
-        List<TransactionDTO> transactionDTOS = modelMapper.map(transactionPage.getContent(), new TypeToken<List<List<TransactionDTO>>>() {
+        List<TransactionDTO> transactionDTOS = modelMapper.map(transactionPage.getContent(), new TypeToken<List<TransactionDTO>>() {
         }.getType());
 
         transactionDTOS.forEach(transactionDTO -> {
