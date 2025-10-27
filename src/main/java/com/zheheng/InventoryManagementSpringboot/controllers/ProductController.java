@@ -8,6 +8,7 @@ import com.zheheng.InventoryManagementSpringboot.services.CategoryService;
 import com.zheheng.InventoryManagementSpringboot.services.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -46,7 +47,7 @@ public class ProductController {
         return ResponseEntity.ok(productService.saveProduct(productDTO, imageFile));
     }
 
-    @PutMapping("/update")
+    @PostMapping(value = "/update", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Response> updateProduct(
             @RequestParam(value = "image", required = false) MultipartFile imageFile,
@@ -54,13 +55,12 @@ public class ProductController {
             @RequestParam(value = "sku", required = false) String sku,
             @RequestParam(value = "price", required = false) BigDecimal price,
             @RequestParam(value = "stockQuantity", required = false) Integer stockQuantity,
-            @RequestParam(value = "productId", required = true) Long productId,
+            @RequestParam("productId") Long productId,
             @RequestParam(value = "categoryId", required = false) Long categoryId,
 
 
             @RequestParam(value = "description", required = false) String description
     ) {
-
         ProductDTO productDTO = new ProductDTO();
         productDTO.setName(name);
         productDTO.setSku(sku);
