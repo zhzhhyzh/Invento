@@ -31,7 +31,7 @@ public class ProductServiceImpl implements ProductService {
     private final CategoryRepository categoryRepository;
 
 
-    private static final String IMAGE_DIRECTORY = System.getProperty("user.dir") + "./product-images/";
+    private static final String IMAGE_DIRECTORY = System.getProperty("user.dir") + "/product-images/";
 
     @Override
     public Response saveProduct(ProductDTO productDTO, MultipartFile productImage) {
@@ -202,6 +202,6 @@ public class ProductServiceImpl implements ProductService {
 
         }
 
-        return imagePath;
+        return uniqueFileName;
     }
 }
