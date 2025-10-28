@@ -43,7 +43,7 @@ public class TransactionFilter {
             // --- Supplier join (LEFT) ---
             Join<Transaction, Supplier> supplierJoin = root.join("supplier", JoinType.LEFT);
             predicates.add(criteriaBuilder.like(criteriaBuilder.lower(supplierJoin.get("name")), searchPattern));
-            predicates.add(criteriaBuilder.like(criteriaBuilder.lower(supplierJoin.get("contact")), searchPattern));
+            predicates.add(criteriaBuilder.like(criteriaBuilder.lower(supplierJoin.get("contactInfo")), searchPattern));
 
             // --- Product join (LEFT) ---
             Join<Transaction, Product> productJoin = root.join("product", JoinType.LEFT);
