@@ -183,7 +183,7 @@ public class TransactionServiceImpl implements TransactionService {
     public Response getAllTransactionById(Long id) {
         Transaction transaction = transactionRepository.findById(id).orElseThrow(() -> new NotFoundException("Transaction Not Found"));
         TransactionDTO transactionDTO = modelMapper.map(transaction, TransactionDTO.class);
-        transactionDTO.setUser(null);
+        transactionDTO.getUser().setTransactions(null);
 
         return Response.builder()
                 .status(200)
